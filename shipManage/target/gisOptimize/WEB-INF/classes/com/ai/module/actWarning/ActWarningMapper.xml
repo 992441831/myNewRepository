@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ai.module.actWarning.ActWarningMapper">
+    <resultMap id="shpType" type="java.util.HashMap"/>
+    <!--<resultMap id="shpType" type="java.util.HashMap">
+>>>>>>> .r16864
+        <result column="SHP" property="SHP" jdbcType="CLOB" javaType="java.lang.String"/>
+    </resultMap>-->
+
+    <!-- 查询网格图形 -->
+    <select id="queryGeo" resultType="java.util.HashMap"
+            parameterType="java.util.HashMap">
+            select SDO_UTIL.TO_WKTGEOMETRY(shape) SHP,gr.act_id,gr.act_name
+            from gr_important_activities gr
+            where act_id = #{actId}
+    </select>
+
+    <!--插入网格-->
+    <insert id="insertGrid" parameterType="java.util.HashMap">
+        insert into gr_important_activities(
+               objectid,act_id,act_name,act_addr,begin_time,end_time,frequency,RECORDER,RECORD_TIME,shape)
+        values(
+               seq_gr_important_activities1.nextval,
+               seq_gr_important_activities2.nextval,
+               #{name},
+               #{addr},
+               to_date(#{begintime},'yyyy/mm/dd hh24:mi'),
+               to_date(#{endtime},'yyyy/mm/dd hh24:mi'),--2018/07/10 18:00
+               #{frequency},
+               #{recorder}，
+               to_date(#{record_time},'yyyy/mm/dd hh24:mi'),
+               MDSYS.SDO_GEOMETRY(
+                    2003,
+                    4326,
+                    NULL,
+                    MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,1),
+                    #{SDO_ORDINATES}
+              )
+        )
+    </insert>
+
+    <!--删除网格-->
+    <delete id="deleteGrid" parameterType="java.util.HashMap">
+            delete from gr_important_activities gr where gr.act_id=#{actId}
+    </delete>
+
+    <!--更新网格图形-->
+    <update id="updateGridSHP" parameterType="java.util.HashMap">
+        update gr_important_activities gr set gr.shape =
+               MDSYS.SDO_GEOMETRY(
+                    2003,
+                    4326,
+                    NULL,
+                    MDSYS.SDO_ELEM_INFO_ARRAY(1,1003,1),
+                    #{SDO_ORDINATES}
+              )
+         where gr.act_id=#{actId}
+    </update>
+
+</mapper>
+

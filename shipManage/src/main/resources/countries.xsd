@@ -1,0 +1,48 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://address.select.query.com"
+           targetNamespace="http://address.select.query.com" elementFormDefault="qualified">
+
+    <xs:element name="AddressRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="address_full_origin" type="xs:string"/>
+                <xs:element name="origin" type="xs:string"/>
+                <xs:element name="employee_id" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="queryAddressResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="address" type="tns:address"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="address">
+        <xs:sequence>
+            <xs:element name="addr_full" type="xs:string"/>
+            <xs:element name="address_id" type="xs:string"/>
+            <xs:element name="address_province" type="xs:string"/>
+            <xs:element name="address_road_code" type="xs:string"/>
+            <xs:element name="address_lane" type="xs:string"/>
+            <xs:element name="address_sub_lane" type="xs:string"/>
+            <xs:element name="address_house_no" type="xs:string"/>
+            <xs:element name="address_builing" type="xs:string"/>
+            <xs:element name="address_floor" type="xs:string"/>
+            <xs:element name="address_room_no" type="xs:string"/>
+            <xs:element name="bureau_code" type="xs:string"/>
+            <xs:element name="sub_bureau_code" type="xs:string"/>
+            <xs:element name="errorCode" type="xs:string"/>
+            <xs:element name="errorMessage" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!--<xs:simpleType name="currency">-->
+        <!--<xs:restriction base="xs:string">-->
+            <!--<xs:enumeration value="GBP"/>-->
+            <!--<xs:enumeration value="EUR"/>-->
+            <!--<xs:enumeration value="PLN"/>-->
+        <!--</xs:restriction>-->
+    <!--</xs:simpleType>-->
+</xs:schema>

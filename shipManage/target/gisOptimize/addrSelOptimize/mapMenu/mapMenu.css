@@ -1,0 +1,132 @@
+/*************************************************************************
+* 地图右侧菜单样式
+* .button 为菜单父级按钮
+* .panel 为菜单面板
+* .vertical-split .horizontal-split 分别为纵向与横向分割线
+* .btn 为一般按钮
+* .radio-btn 为包含单选框的按钮
+* .radio 为单选框
+* .checkbox-btn 为包含复选框的按钮
+* .checkbox 为复选框
+* .icon 为文本图标
+**************************************************************************/
+.map-menus {
+    position: fixed;
+    z-index: 998;
+    top: 20px;
+    right: 20px;
+    width: 290px;
+    background-color: #f9f9f9;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+    -webkit-box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
+}
+
+.map-menus .button {
+    float: left;
+    height: 34px;
+    line-height: 34px;
+    width:95px;
+    padding: 0px 13px;
+    text-align: center;
+    font-size: 12px;
+    color: #666666;
+    cursor: pointer;
+}
+
+.map-menus .button:hover {
+    color: #0078ff;
+}
+
+.map-menus .button .m-arrow {
+    background: url(../images/arrow_down.png) no-repeat;
+    background-position: 0 2px;
+    padding-left: 12px;
+    margin: 0px 3px;
+}
+.map-menus .button.expanded .m-arrow {
+    background: url(../images/arrow_up.png) no-repeat;
+}
+
+.map-menus .vertical-split {
+    float: left;
+    width: 1px;
+    height: 20px;
+    margin: 7px 0px;
+    background-color: #DFDFDF;
+}
+
+.map-menus .horizontal-split {
+    height: 1px;
+    margin: 0px 7px;
+    background-color: #DFDFDF;
+}
+
+.map-menus .panel {
+    position: absolute;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    display:none;
+    -webkit-box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, .15);
+}
+
+.map-menus .btn, .map-menus .radio-btn, .map-menus .checkbox-btn {
+    height: 34px;
+    padding:0px 10px;
+    line-height: 34px;
+    font-size: 13px;
+    color: #666666;
+    text-align:left;
+    cursor: pointer;
+}
+
+.map-menus .b-text {
+    margin-left:10px;
+}
+
+.map-menus .btn:hover, .map-menus .radio-btn:hover, .map-menus .checkbox-btn:hover, .map-menus .btn.active {
+    color: #0078ff;
+}
+
+.map-menus .checkbox-btn .checkbox {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin: 10px 4px 10px 0px;
+    background-repeat: no-repeat;
+    /*background-image:url(../../image/checkbox_unchecked.png);*/
+}
+.map-menus .checkbox-btn:hover .checkbox {
+    /*background-image:url(../../image/checkbox_unchecked_hover.png);*/
+}
+.map-menus .checkbox-btn.checked .checkbox, .map-menus .checkbox-btn.checked:hover .checkbox {
+    /*background-image:url(../../image/checkbox_checked.png);*/
+}
+
+.map-menus .radio-btn .radio {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin: 10px 4px 10px 0px;
+    background-repeat: no-repeat;
+    /*background-image:url(../../image/radio_unchecked.png);*/
+}
+.map-menus .radio-btn:hover .radio {
+    /*background-image:url(../../image/radio_unchecked_hover.png);*/
+}
+.map-menus .radio-btn.checked .radio, .map-menus .radio-btn.checked:hover .radio {
+    /*background-image:url(../../image/radio_checked.png);*/
+}
+
+.map-menus .icon {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin: 10px 4px 10px 0;
+    background-repeat: no-repeat;
+}

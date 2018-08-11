@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="shipManage:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="gisOptimize.war">
+      <element id="artifact" artifact-name="shipManage:war exploded" />
+    </root>
+  </artifact>
+</component>

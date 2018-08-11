@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ai.module.addrpoi.AddressMapper">
+    <resultMap id="shpType" type="java.util.HashMap">
+        <result column="SHP" property="SHP" jdbcType="CLOB" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="queryGrid" resultType="java.util.HashMap"   parameterType="java.util.HashMap">
+      SELECT to_char(SDE.ST_ASTEXT(gp.SHAPE)) SHP,sde.st_x(sde.st_centroid(gp.SHAPE))
+        x,sde.st_y(sde.st_centroid(gp.SHAPE)) y,g.gridname,g.gridcode,g.grid_id
+          FROM gr_grid_sh gp,address_grid g WHERE gp.grid_id=g.grid_id and g.address_id=#{address_id}
+     </select>
+
+    <!-- 查询所有告警的基站及扇区告警信息  &lt; &gt;-->
+    <select id="queryErrorStationInfo" resultType="java.util.HashMap"   parameterType="java.util.HashMap">
+           select  enmid,section_id,section_code,section_name,error_type,error_remark,to_char(error_date,'yyyy-MM-dd hh24:mi:ss') error_date
+               from   zhejiang_error_section where enmid =#{id}
+      </select>
+
+    <!-- 查询所有告警的基站及扇区-->
+    <select id="queryErrorStation" resultType="java.util.HashMap"   parameterType="java.util.HashMap">
+         select  decode(g.enmid,null,g.section_id) id,g.type,to_char(g.shape.SDO_POINT.X) X,to_char(g.shape.SDO_POINT.Y) Y,
+          g.error_start_date,g.error_next_date,g.error_type,g.base_station_code,g.address_name,g.base_station_name
+         from geo_error_station g
+    </select>
+
+    <!-- 查询零时数据  &lt; &gt;-->
+    <select id="queryTempData" resultType="java.util.HashMap"   parameterType="java.util.HashMap">
+         select  to_char(g.shape.SDO_POINT.X) X,to_char(g.shape.SDO_POINT.Y) Y
+         from geo_zhejiang_base_station g where rownum  &lt; 500
+    </select>
+
+    <!-- 新增申告信息-->
+    <insert id="insertComplaint"    parameterType="java.util.HashMap">
+        insert into geo_complaintinfo (Complaint_code ,
+                Complaint_date ,
+                Complaint_address ,
+                Complaint_info ,
+                remarks ,
+                shape )
+                values (geo_Complaint_id.Nextval,sysdate,#{complaint_address},#{complaint_info},#{remarks},
+                MDSYS.SDO_GEOMETRY(
+                       2001,
+                       4326,
+                       MDSYS.SDO_POINT_TYPE(to_number(#{x}),to_number(#{y}), 0),
+                       NULL,
+                       NULL
+                      )
+                )
+    </insert>
+
+    <!-- 新增告警基站-->
+
+
+
+</mapper>

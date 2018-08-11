@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地址查询优化</title>
+    <style type="text/css">
+        html{height:100%}
+        body{height:100%;margin:0px;padding:0px}
+        #container{height:100%}
+    </style>
+
+    <script type="text/javascript" src="http://192.168.74.189:9999/gisapi/getscript"></script>
+
+    <script type="text/javascript" src="../static/jquery/jquery-1.11.3.min.js"></script>
+
+    <link rel="stylesheet" href="addrSelOptimize.css">
+    <link rel="stylesheet" href="mapMenu/mapMenu.css">
+
+    <script type="text/javascript" src="addrSelOptimize.js"></script>
+    <script type="text/javascript" src="mapMenu/mapMenu.js"></script>
+
+    <!--单选picker-->
+    <link rel="stylesheet" href="../static/selectFilter/css/selectFilter.css">
+    <script type="text/javascript" src="../static/selectFilter/js/selectFilter.js"></script>
+
+    <!--日期时间选择器-->
+    <link rel="stylesheet" href="../static/datatimepicker/jquery.datetimepicker.css">
+    <script type="text/javascript" src="../static/datatimepicker/jquery.datetimepicker.full.js"></script>
+
+    <!---关于datatable的引用-->
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>-->
+    <!--<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="../static/DataTables-1.10.18/css/jquery.dataTables.min.css"/>
+    <script type="text/javascript" src="../static/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
+
+    <!--icheck-->
+    <link rel="stylesheet" href="../static/iCheck/custom.css">
+    <script src="../static/iCheck/icheck.min.js"></script>
+
+    <!--关于提示框的引用-->
+    <link rel="stylesheet" href="../static/spop-gh-pages/dist/spop.min.css">
+    <script type="text/javascript" src="../static/spop-gh-pages/dist/spop.min.js"></script>
+    <script type="text/javascript" src="../static/spop-gh-pages/src/prism.js"></script>
+    <script type="text/javascript" src="../static/spop-gh-pages/src/scripts.min.js"></script>
+</head>
+<body>
+    <div id="container" >
+
+    <div id="map"></div>
+        <div class="picker-content">
+            <input type="text" value="" placeholder="时间" class="dpicker" id="datetimepicker"/>
+        </div>
+        <div class="time-item">
+            <div class="filter-box">
+                <div class="filter-text">
+                    <input class="filter-title" type="text" readonly placeholder="3小时" />
+                    <i class="icon icon-filter-arrow"></i>
+                </div>
+                <select name="filter">
+                    <option value="1">1小时</option>
+                    <option value="2">2小时</option>
+                    <option value="3" selected>3小时</option>
+                </select>
+            </div>
+        </div>
+        <!--<div class="city-label">当前:-->
+            <!--<span id="cityName"></span>-->
+        <!--</div>-->
+    <div class="search-content" style="float: left;" >
+
+        <input style="float: left;" id="searchInput" type="text" placeholder="输入地址搜索" />
+        <div class="split">
+        </div>
+        <!-- 搜索按钮组 -->
+        <div class="search-menu">
+            <!-- loading动画 -->
+            <div id="searchLoading" class="menu-btn el-icon-loading"></div>
+            <!-- 搜索结果清空按钮 -->
+            <div id="searchClear" class="menu-btn el-icon-close"></div>
+            <!-- 搜索按钮 -->
+            <div id="searchBtn" class="menu-btn el-icon-search" style="display:block;" onclick="queryByAddressOrPoi()">
+                <div class="icon"></div>
+                <!--搜索-->
+            </div>
+        </div>
+
+        <div id="table-content" style="display: none">
+            <table id="dataTable" class="" frame=vsides cellspacing="0" cellpadding="0" border="0" style="background: white;color: #36404e;">
+                <tbody style="">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="map-menus" id="tools">
+            <div  class="button"  id="area_choose">
+                <span id="cityName">区域</span><span class="m-arrow"></span>
+                <div class="panel" style="width:290px; top:34px;right: 0;padding-bottom: 10px">
+                    <!--<iframe id="iframe-areaTree" src="area/areaSelect.html?checkEnable=0" style="width:260px;height:200px;"></iframe>-->
+                    <div style="padding: 0px 8px;" isChecked="true">
+                        <div style="text-align: left;color: #666666">区域选择</div>
+                        <div style="height: 1px;width: 100%;background: #d2d2d2"></div>
+                        <div id="area_controller" style="margin-top: 5px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="vertical-split"></div>
+            <div  class="button" id="layers_choose">
+                <span>图层</span><span class="m-arrow"></span>
+                <div class="panel" style="width:97px; top:34px; right:97px;" id="layer_controller_li">
+
+                </div>
+            </div>
+            <div class="vertical-split"></div>
+            <div class="button" id="tool_choose">
+                <span>工具</span><span class="m-arrow"></span>
+                <div class="panel" style="width:97px; top:34px; right:0px;">
+                    <div id="add_4g_station" class="btn" style="padding: 0px 8px;" isChecked="true">
+                        <span class="b-text">更多工具</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="legend-warning" id="legend4error_layer_controller">
+            <img src="images/legend4Warning.png" />
+        </div>
+
+        <div class="legend-warning" id="legend4point_layer_controller">
+            <img src="images/legend4point.png" />
+        </div>
+
+        <div id="myDiv" class="myDiv" style="display: none;"></div>
+
+</div>
+</body>
+</html>

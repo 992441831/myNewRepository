@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ai.module.shipManage.ShipManageMapper">
+    <resultMap id="shpType" type="java.util.HashMap"/>
+
+    <!-- 查询船舶信息 -->
+    <select id="queryShip" resultType="java.util.HashMap"
+            parameterType="java.util.HashMap">
+           select * from shipmanage LIMIT #{offset},#{pageSize}
+    </select>
+    <select id="queryCount" resultType="Integer"
+            parameterType="java.util.HashMap">
+        SELECT count(*) FROM shipManage
+    </select>
+    <select id="queryShipByName" resultType="java.util.HashMap"
+            parameterType="java.util.HashMap">
+        select * from shipmanage sm where sm.name=#{name}
+    </select>
+</mapper>
+

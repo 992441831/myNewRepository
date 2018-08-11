@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>测试接口</title>
+<script type="text/javascript" src="../../static/jquery/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+//按网格移动地址
+function test(){
+	$.ajax({
+		type: "get",
+		dataType: "json",
+		url:"/shipManage/module/shipManage/queryShip.do",
+		data:{
+			},
+		success: function(result) 
+		{
+			console.log(result);
+			var status=result.status;
+			var res = $("#div");
+			if(status==0){
+				alert(result.msg);
+			    res.append(JSON.stringify(result.newAddr));	
+			    res.append("<br>");
+			}
+		},
+		error: function(result) {
+			alert("发送请求失败:状态码" + result.status);
+		}
+	});
+}
+
+function test2(){
+	$.ajax({
+		type: "get",
+		dataType: "json",
+		url:"/gisOptimize/module/actWarning/updateGridSHP.do",
+		data:{
+			actId: 10055,
+			coordStr:"120.22745628321024,30.26151517006272,120.23122916658771,30.259955473886286,120.22972001323672,30.257491102928924,120.22580340096869,30.259300394030706,120.22745628321024,30.2615151700627"
+		},
+		success: function(result)
+		{
+			console.log(result);
+			var status=result.status;
+			var res = $("#div");
+			if(status==0){
+				alert(result.msg);
+				res.append(JSON.stringify(result.newAddr));
+				res.append("<br>");
+			}
+		},
+		error: function(result) {
+			alert("发送请求失败:状态码" + result.status);
+		}
+	});
+}
+</script>
+</head>
+<body>
+
+	<input type="button" onclick="test();" value="测试" id="testBtn" style="margin-left:5px;"/><br/><br/>
+
+<div id="div"></div>
+</body>
+</html>
